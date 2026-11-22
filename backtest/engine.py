@@ -71,3 +71,58 @@ def run(o, h, l, c, atr, sig, sl_mult, tp_mult, max_hold, cost, long_only):
                 k += 1
                 pos = 0
     return out_r[:k], out_i[:k]
+
+
+@njit(cache=True)
+def run_levels(o, h, l, c, sig, slp, tpp, cost, max_hold):
+    """Like run(), but SL/TP are explicit price levels set at signal bar (sig[i], slp[i], tpp[i]).
+    Trade skipped if next open is already beyond SL or TP."""
+    n = len(c)
+    out_r = np.empty(n)
+    out_i = np.empty(n, dtype=np.int64)
+    k = 0
+    pos = 0
+    entry = 0.0
+    sl = 0.0
+    tp = 0.0
+    risk = 0.0
+    ebar = 0
+    for i in range(1, n):
+        s = sig[i - 1]
+        if pos == 0 and s != 0:
+            e = o[i]
+            r0 = (e - slp[i - 1]) * s
+            rw = (tpp[i - 1] - e) * s
+            if r0 > 0 and rw > 0:
+                pos = s
+                entry = e
+                sl = slp[i - 1]
+                tp = tpp[i - 1]
+                risk = r0
+                ebar = i
+        if pos != 0:
+            done = False
+            exitp = 0.0
+            if pos == 1:
+                if l[i] <= sl:
+                    exitp = min(sl, o[i]) if i != ebar else sl
+                    done = True
+                elif h[i] >= tp:
+                    exitp = tp
+                    done = True
+            else:
+                if h[i] >= sl:
+                    exitp = max(sl, o[i]) if i != ebar else sl
+                    done = True
+                elif l[i] <= tp:
+                    exitp = tp
+                    done = True
+            if not done and max_hold > 0 and i - ebar + 1 >= max_hold:
+                exitp = c[i]
+                done = True
+            if done:
+                out_r[k] = ((exitp - entry) * pos - cost) / risk
+                out_i[k] = ebar
+                k += 1
+                pos = 0
+    return out_r[:k], out_i[:k]
