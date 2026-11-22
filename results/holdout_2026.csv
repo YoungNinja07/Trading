@@ -1,0 +1,27 @@
+tf,entry,params,filter,direction,sl,tp,trades_2026,R_2026,random_R_2026
+4h,Donchian,{'n': 55},none,long only,2.0,4.0,16,8.1,-6.3
+4h,MACD,{'zero': 1},ADX>20,long only,3.0,3.0,14,-3.9,-2.9
+1d,Inside bar,{},none,long only,2.0,2.0,6,-2.0,-1.4
+4h,Closing-high momentum,{'n': 20},ADX>20,long only,2.0,4.0,25,-1.1,-5.7
+4h,Donchian,{'n': 100},ADX>20,long only,2.0,4.0,9,9.0,-2.5
+4h,Donchian,{'n': 55},ADX>20,long only,2.0,4.0,14,4.1,-3.3
+4h,Donchian,{'n': 55},EMA200 trend,long only,2.0,4.0,15,9.1,-4.8
+1d,Day of week,{'dow': 0},ADX>20,long+short,1.5,3.0,13,-1.0,-0.3
+4h,Donchian,{'n': 100},none,long only,2.0,4.0,11,13.0,-2.2
+4h,Donchian,{'n': 100},EMA200 trend,long only,2.0,4.0,11,13.0,-2.8
+4h,Donchian,{'n': 10},ADX>20,long only,2.0,4.0,22,-7.1,-6.5
+4h,Donchian,{'n': 20},ADX>20,long only,2.0,4.0,20,-5.1,-4.1
+4h,ROC momentum,{'n': 20},ADX>20,long only,2.0,4.0,24,-9.1,-6.8
+1d,Donchian,{'n': 100},ADX>20,long only,1.5,3.0,1,2.0,-0.8
+1d,Pin bar,{},ADX>20,long only,3.0,3.0,1,-1.0,-1.4
+4h,EMA cross,"{'f': 9, 's': 21}",ADX>20,long only,3.0,3.0,17,-7.0,-2.6
+4h,Closing-high momentum,{'n': 20},none,long only,2.0,4.0,31,-1.1,-4.9
+4h,Donchian,{'n': 20},none,long only,2.0,4.0,24,-0.1,-7.0
+1d,RSI reversion,"{'n': 2, 'lo': 10}",none,long only,2.0,4.0,8,-5.0,-2.0
+1d,Donchian,{'n': 55},ADX>20,long only,1.5,3.0,2,1.0,-2.0
+30m,Donchian,{'n': 100},ADX>20,long only,3.0,3.0,74,2.8,-11.0
+4h,MACD,{'zero': 0},ADX>20,long only,2.0,4.0,29,-8.1,-4.7
+4h,MACD,{'zero': 0},EMA200 trend,long only,3.0,3.0,11,1.0,-3.1
+1d,RSI reversion,"{'n': 2, 'lo': 10}",ADX>20,long only,3.0,3.0,3,-3.0,-1.9
+1d,Donchian,{'n': 100},ADX>20,long+short,1.5,3.0,4,-1.0,1.5
+4h,MACD,{'zero': 0},EMA200 trend,long only,1.5,3.0,17,-1.8,-4.1

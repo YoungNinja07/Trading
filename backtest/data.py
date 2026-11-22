@@ -1,4 +1,4 @@
-"""Load HistData XAUUSD M1 CSVs (EST, no DST = UTC-5) and resample to higher timeframes."""
+"""Load XAUUSD M1: HistData CSVs (EST no DST = UTC-5) + OANDA spot extension; resample to higher TFs."""
 from pathlib import Path
 import pandas as pd
 
@@ -26,6 +26,15 @@ def load_m1() -> pd.DataFrame:
     df.index.name = "time"
     df = df[["open", "high", "low", "close"]].astype("float64")
     df = df[~df.index.duplicated()].sort_index()
+    # extend with OANDA spot M1 (HF dataset bunqi/OANDA_XAUUSD_Gold, UTC) after HistData ends
+    oanda = sorted((RAW / "oanda").glob("*.parquet"))
+    if oanda:
+        o = pd.concat([pd.read_parquet(f) for f in oanda])
+        o.index = pd.to_datetime(o["time"], unit="s")
+        o.index.name = "time"
+        o = o[["open", "high", "low", "close"]].astype("float64")
+        df = pd.concat([df, o[o.index > df.index[-1]]])
+        df = df[~df.index.duplicated()].sort_index()
     df.to_parquet(pq)
     return df
 

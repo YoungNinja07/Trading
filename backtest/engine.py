@@ -126,3 +126,57 @@ def run_levels(o, h, l, c, sig, slp, tpp, cost, max_hold):
                 k += 1
                 pos = 0
     return out_r[:k], out_i[:k]
+
+
+@njit(cache=True)
+def run_trail(o, h, l, c, atr, entry_n, exit_n, sl_mult, cost, allow_short):
+    """Turtle-style: enter on close beyond entry_n-bar high/low, initial stop sl_mult*ATR,
+    exit on close beyond exit_n-bar opposite extreme (trailing). No fixed take profit."""
+    n = len(c)
+    out_r = np.empty(n)
+    out_i = np.empty(n, dtype=np.int64)
+    k = 0
+    pos = 0
+    entry = 0.0
+    sl = 0.0
+    risk = 0.0
+    ebar = 0
+    pend = 0
+    for i in range(max(entry_n, exit_n) + 1, n):
+        # execute pending entry at open
+        if pend != 0 and pos == 0:
+            pos = pend
+            entry = o[i]
+            risk = sl_mult * atr[i - 1]
+            sl = entry - pos * risk
+            ebar = i
+        pend = 0
+        if pos != 0:
+            if (pos == 1 and l[i] <= sl) or (pos == -1 and h[i] >= sl):
+                px = sl if i != ebar else sl
+                if pos == 1 and o[i] < sl:
+                    px = o[i]
+                if pos == -1 and o[i] > sl:
+                    px = o[i]
+                out_r[k] = ((px - entry) * pos - cost) / risk
+                out_i[k] = ebar
+                k += 1
+                pos = 0
+                continue
+            lo_x = l[i - exit_n:i].min()
+            hi_x = h[i - exit_n:i].max()
+            if (pos == 1 and c[i] < lo_x) or (pos == -1 and c[i] > hi_x):
+                # exit at next open approximated by this close
+                out_r[k] = ((c[i] - entry) * pos - cost) / risk
+                out_i[k] = ebar
+                k += 1
+                pos = 0
+                continue
+        if pos == 0:
+            hi_e = h[i - entry_n:i].max()
+            lo_e = l[i - entry_n:i].min()
+            if c[i] > hi_e:
+                pend = 1
+            elif allow_short and c[i] < lo_e:
+                pend = -1
+    return out_r[:k], out_i[:k]

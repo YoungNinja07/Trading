@@ -1,0 +1,63 @@
+
+### A) Turtle breakout with trailing exit (4h, 1d)
+4h in 20/out10 L  : dev n= 212   +16.9 t=+0.6 | val n=  54   +41.0 t=+2.2 | hold n=  19    +0.4 t=+0.1
+4h in 20/out10 L+S: dev n= 361   +30.5 t=+0.9 | val n=  94   +22.6 t=+1.1 | hold n=  39    -0.5 t=-0.1
+4h in 55/out20 L  : dev n= 105   +54.3 t=+1.8 | val n=  32   +46.7 t=+1.4 | hold n=  10    +2.3 t=+0.3
+4h in 55/out20 L+S: dev n= 188   +48.2 t=+1.5 | val n=  51   +29.8 t=+0.9 | hold n=  21    -1.2 t=-0.1
+4h in 55/out10 L  : dev n= 134   +28.6 t=+1.1 | val n=  45   +23.2 t=+1.4 | hold n=  11    +2.1 t=+0.4
+4h in 55/out10 L+S: dev n= 230   +28.9 t=+1.0 | val n=  66   +11.5 t=+0.6 | hold n=  22    +2.1 t=+0.3
+4h in100/out20 L  : dev n=  82   +34.0 t=+1.3 | val n=  20   +50.4 t=+1.6 | hold n=   5    +6.4 t=+1.0
+4h in100/out20 L+S: dev n= 143   +30.0 t=+1.0 | val n=  30   +41.0 t=+1.2 | hold n=  15    +3.5 t=+0.5
+4h in100/out50 L  : dev n=  58   +69.7 t=+1.9 | val n=  16   +59.6 t=+1.9 | hold n=   3    +1.1 t=+0.3
+4h in100/out50 L+S: dev n= 116   +43.8 t=+1.2 | val n=  26   +49.5 t=+1.5 | hold n=  10    +2.2 t=+0.4
+1d in 20/out10 L  : dev n=  33   +10.8 t=+0.9 | val n=  12   +15.8 t=+1.7 | hold n=   1    -0.7 t=+nan
+1d in 20/out10 L+S: dev n=  61    -0.5 t=-0.0 | val n=  18    +9.3 t=+0.9 | hold n=   2    +0.3 t=+nan
+1d in 55/out20 L  : dev n=  17    +4.3 t=+0.6 | val n=   5   +27.9 t=+1.8 | hold n=   1    -1.0 t=+nan
+1d in 55/out20 L+S: dev n=  33    -3.8 t=-0.4 | val n=   5   +27.9 t=+1.8 | hold n=   3    -3.1 t=-46.9
+1d in 55/out10 L  : dev n=  18    +6.0 t=+0.7 | val n=   9   +10.8 t=+1.5 | hold n=   2    -2.0 t=+nan
+1d in 55/out10 L+S: dev n=  35    -1.9 t=-0.2 | val n=   9   +10.8 t=+1.5 | hold n=   4    -4.1 t=-62.3
+1d in100/out20 L  : dev n=  16    -0.9 t=-0.1 | val n=   5   +24.8 t=+1.8 | hold n=   0    +0.0 t=+nan
+1d in100/out20 L+S: dev n=  25    -3.5 t=-0.5 | val n=   5   +24.8 t=+1.8 | hold n=   3    -3.1 t=-47.0
+1d in100/out50 L  : dev n=  14   +54.5 t=+1.0 | val n=   0    +0.0 t=+nan | hold n=   0    +0.0 t=+nan
+1d in100/out50 L+S: dev n=  22   +51.9 t=+0.9 | val n=   0    +0.0 t=+nan | hold n=   3    -3.1 t=-47.0
+
+### B) Time-series momentum, daily, long/short by sign of N-day return, 1-day holding, vol-scaled (R = daily P&L / ATR)
+lookback  20: dev n=2043    +6.5 t=+0.2 | val n= 523   +10.6 t=+0.7 | hold n= 223   +13.8 t=+1.3
+   long-only : dev n=2043   +33.6 t=+1.4 | val n= 523   +36.2 t=+2.5 | hold n= 223    +2.1 t=+0.3
+lookback  60: dev n=2003   +41.3 t=+1.4 | val n= 523   +38.3 t=+2.4 | hold n= 223    +1.5 t=+0.1
+   long-only : dev n=2003   +46.4 t=+2.0 | val n= 523   +49.9 t=+3.2 | hold n= 223    -4.0 t=-0.5
+lookback 120: dev n=1943   +17.9 t=+0.6 | val n= 523   +61.1 t=+3.8 | hold n= 223    +8.1 t=+0.8
+   long-only : dev n=1943   +33.7 t=+1.4 | val n= 523   +61.1 t=+3.8 | hold n= 223    -0.7 t=-0.1
+lookback 250: dev n=1813   +10.6 t=+0.4 | val n= 523   +61.1 t=+3.8 | hold n= 223    -2.6 t=-0.2
+   long-only : dev n=1813   +34.0 t=+1.5 | val n= 523   +61.1 t=+3.8 | hold n= 223    -6.1 t=-0.6
+
+### C) Intraday seasonality: gold return by UTC hour (choose on DEV, check VAL/HOLD)
+      dev   val  hold
+time                 
+0     2.9   1.7   4.5
+1     1.2   5.6   2.2
+2     3.4   1.2  -7.5
+3    -0.4   3.7  -0.1
+4    -1.0   2.5  -1.9
+5    -0.4   3.3  -4.4
+6     1.0   1.1   7.9
+7    -1.1   2.4  -4.1
+8     2.0   3.1  -5.2
+9     1.5   6.0  -7.5
+10    1.0   2.8   2.4
+11   -1.8   2.8   6.5
+12   -1.4  -0.5   0.3
+13    3.1   2.8  -6.1
+14   -3.9  -1.1  -1.9
+15    3.5   4.9  -8.2
+16    1.5   2.4  -2.4
+17   -1.9   2.2  -4.3
+18    1.4   1.7  -4.4
+19    1.4   0.2  -0.3
+20   -1.3   4.5  -3.0
+21   -6.0  -1.1   4.2
+22   -2.0  18.6  -1.8
+23    9.7  13.0   2.2
+DEV best long hours: [2, 15, 23]  best short hours: [21, 14, 22]
+long best-3: dev n=6075  -324.2 t=-4.9 | val n=1568   +24.1 t=+0.7 | hold n= 672   -42.1 t=-2.3
+short worst-3: dev n=4146  -256.9 t=-4.6 | val n=1026   -45.7 t=-1.7 | hold n= 446    -2.8 t=-0.2
