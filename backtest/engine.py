@@ -180,3 +180,58 @@ def run_trail(o, h, l, c, atr, entry_n, exit_n, sl_mult, cost, allow_short):
             elif allow_short and c[i] < lo_e:
                 pend = -1
     return out_r[:k], out_i[:k]
+
+
+@njit(cache=True)
+def run_pct(o, h, l, c, atr, sig, sl_mult, tp_mult, cost_frac, long_only):
+    """Same rules as run() but round-trip cost is a fraction of entry price (for multi-market tests)."""
+    n = len(c)
+    out_r = np.empty(n)
+    out_i = np.empty(n, dtype=np.int64)
+    k = 0
+    pos = 0
+    entry = 0.0
+    sl = 0.0
+    tp = 0.0
+    risk = 0.0
+    ebar = 0
+    for i in range(1, n):
+        s = sig[i - 1]
+        if long_only and s < 0:
+            s = 0
+        if s != 0 and atr[i - 1] > 0:
+            if pos != 0 and s == -pos:
+                out_r[k] = ((o[i] - entry) * pos - cost_frac * entry) / risk
+                out_i[k] = ebar
+                k += 1
+                pos = 0
+            if pos == 0:
+                pos = s
+                entry = o[i]
+                risk = sl_mult * atr[i - 1]
+                sl = entry - pos * risk
+                tp = entry + pos * tp_mult * atr[i - 1]
+                ebar = i
+        if pos != 0:
+            done = False
+            exitp = 0.0
+            if pos == 1:
+                if l[i] <= sl:
+                    exitp = min(sl, o[i]) if i != ebar else sl
+                    done = True
+                elif h[i] >= tp:
+                    exitp = max(tp, o[i]) if i != ebar else tp
+                    done = True
+            else:
+                if h[i] >= sl:
+                    exitp = max(sl, o[i]) if i != ebar else sl
+                    done = True
+                elif l[i] <= tp:
+                    exitp = min(tp, o[i]) if i != ebar else tp
+                    done = True
+            if done:
+                out_r[k] = ((exitp - entry) * pos - cost_frac * entry) / risk
+                out_i[k] = ebar
+                k += 1
+                pos = 0
+    return out_r[:k], out_i[:k]
